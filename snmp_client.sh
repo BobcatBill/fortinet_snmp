@@ -1,5 +1,5 @@
 #!/bin/sh
-SNMPSTRING=public2
+SNMPSTRING=public
 
 for HOSTNAME in `grep fw /etc/xymon/hosts.cfg | awk '{print $2}'`; do
 	MSG=/tmp/${HOSTNAME}.MSG.out
