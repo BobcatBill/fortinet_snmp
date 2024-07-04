@@ -9,9 +9,12 @@ for HOSTNAME in `grep fw /etc/xymon/hosts.cfg | awk '{print $2}'`; do
 	echo "[uptime]" >> $MSG
 	XTIME=$(uptime | awk '{print $1}')
 	UPTIME=$(snmpget -Ov -v2c -c $SNMPSTRING $HOSTNAME 1.3.6.1.2.1.1.3.0 | awk '{printf($3" "$4" "$5)}')
-	if [ "$UPTIME" = "" ]; then
-		break
-	fi
+ 	if [[ "$?" != 0 ]]; then
+		exit 1
+  	fi
+#	if [ "$UPTIME" = "" ]; then
+#		break
+#	fi
 	LOAD=$(snmpget -Oqv -v2c -c $SNMPSTRING $HOSTNAME .1.3.6.1.4.1.12356.101.4.1.3.0)
 	echo "$XTIME up $UPTIME, 0 users, load=$LOAD%" >> $MSG
 	$BB $BBDISP "@" < $MSG
