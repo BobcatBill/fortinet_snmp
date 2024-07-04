@@ -1,7 +1,7 @@
 #!/bin/sh
 SNMPSTRING=public
 
-for HOSTNAME in `grep "fw|sw0|faz|fmg|fsa|fac" /etc/xymon/hosts.cfg | awk '{print $2}'`; do
+for HOSTNAME in `grep -E "fw|sw0|faz|fmg|fsa|fac" /etc/xymon/hosts.cfg | awk '{print $2}'`; do
 	UPTIME=$(snmpget -Ov -v2c -c $SNMPSTRING $HOSTNAME 1.3.6.1.2.1.1.3.0 | awk '{printf($3" "$4" "$5)}')
  	if [ "$?" != 0 ]; then
   		echo "Error on host $HOSTNAME"
