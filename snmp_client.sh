@@ -2,7 +2,7 @@
 SNMPSTRING=public
 
 for HOSTNAME in `grep -E "fw|sw0|faz|fmg|fsa|fac" /etc/xymon/hosts.cfg | awk '{print $2}'`; do
-	UPTIME=$(snmpget -Ov -v2c -c $SNMPSTRING $HOSTNAME 1.3.6.1.2.1.1.3.0 | awk '{printf($3" "$4" "$5)}')
+	UPTIME=$(snmpget -Ov -v2c -c $SNMPSTRING $HOSTNAME 1.3.6.1.2.1.1.3.0 2>/dev/null | awk '{printf($3" "$4" "$5)}')
  	if [ "$UPTIME" = "" ]; then
 		echo "Error on host $HOSTNAME"
  		exit 1
