@@ -44,11 +44,8 @@ for HOSTNAME in `grep -E "fw|sw0|faz|fmg|fsa|fac|ap0" /etc/xymon/hosts.cfg | awk
 			FWHOST=$(echo "$HOSTNAME" | sed 's/ap0./fw01/g')
 			SHORTHOST=$(echo $HOSTNAME | awk -F\. '{print $1}')
 			TARGET=$(snmpwalk -Oq -v2c -c $SNMPSTRING $FWHOST 1.3.6.1.4.1.12356.101.14.4.3.1.3 | grep $SHORTHOST | awk '{print $1}')
-			echo "TARGET=$TARGET"
 			TARGET2=$(echo "$TARGET" | sed 's/12356.101.14.4.3.1.3.1.16/12356.101.14.4.4.1.8.1.16/g')
-			echo "TARGET2=$TARGET2"
 			UPTIME=$(snmpget -Ov -v2c -c $SNMPSTRING $FWHOST $TARGET2 | awk '{printf($3" "$4" "$5)}')
-			echo "UPTIME=$UPTIME"
 			TARGET2=$(echo "$TARGET" | sed 's/12356.101.14.4.3.1.3.1.16/12356.101.14.4.4.1.20.1.16/g')
 			LOAD=$(snmpget -Oqv -v2c -c $SNMPSTRING $FWHOST $TARGET2)
 			;;
